@@ -1,0 +1,17 @@
+#!/bin/bash
+#source /usr/lib/openfoam/openfoam2012/etc/bashrc
+cd "${0%/*}" || exit                                # Run from this directory
+#. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions        # Tutorial run functions
+#------------------------------------------------------------------------------
+
+#
+(
+  	of2012
+	#clean
+	rm -r 0.*
+	#run
+	unbuffer pimpleFoam |tee pimpleFoam.log
+	grep -e "Mesh Courant" pimpleFoam.log |awk '{print $7}'|feedgnuplot --lines
+)
+
+#------------------------------------------------------------------------------
